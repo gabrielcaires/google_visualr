@@ -9,12 +9,16 @@ module GoogleVisualr
 
       def render_chart(chart, dom, options={})
         script_tag = options.fetch(:script_tag) { true }
-        if script_tag
-          chart.to_js(dom).html_safe
+        use_jquery = options.fetch(:use_jquery) { false }
+        # binding.pry
+        html = ""
+        if script_tag          
+          html << chart.to_js(dom,use_jquery)
+          html.html_safe
         else
-          html = ""
           html << chart.load_js(dom)
           html << chart.draw_js(dom)
+          html = "jQuery(function($){#{html.html_safe}})"  if use_jquery
           html.html_safe
         end
       end

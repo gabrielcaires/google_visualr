@@ -36,11 +36,14 @@ module GoogleVisualr
     #
     # Parameters:
     #  *div_id            [Required] The ID of the DIV element that the Google Chart should be rendered in.
-    def to_js(element_id)
+    #  *use_jquery        [Optional] Flag to use a jQuery's dom ready
+    def to_js(element_id, use_jquery = false)
       js =  ""
       js << "\n<script type='text/javascript'>"
+      js << "\njQuery(function($){" if use_jquery
       js << load_js(element_id)
-      js << draw_js(element_id)
+      js << draw_js(element_id) 
+      js << "})" if use_jquery
       js << "\n</script>"
       js
     end
